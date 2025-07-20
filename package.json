@@ -10,6 +10,9 @@
     "typescript": "^5.8.3"
   },
   "scripts": {
+    "assignment1": "ts-node src/Assignment1/index.ts",
+    "assignment2": "ts-node src/Assignment2/app.ts",
+    "assignment3": "ts-node src/Assignment3/src/server.ts",
     "dev": "ts-node src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
