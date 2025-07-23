@@ -7,3 +7,5 @@ const token = jwt.sign(
 );
 
 console.log(token);
+
+// Generate User Token- npx ts-node src/modules/Assignment3/generateAdminToken.ts
