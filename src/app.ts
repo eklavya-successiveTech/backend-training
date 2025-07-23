@@ -5,6 +5,7 @@ import mainRouter from './routes/index';
 import { errorHandler } from './middlewares/errorHandler';
 import { addCustomHeader } from './middlewares/customHeaderMiddleware';
 import { rateLimiter } from './middlewares/rateLimiter';
+import createError from 'http-errors';
 
 const app = express();
 
@@ -20,6 +21,9 @@ app.get('/', (req, res) => {
 
 app.use('/api', mainRouter);
 
+app.use((req, res, next) => {
+  next(createError(404, 'Not Found'));
+});
 app.use(errorHandler);
 
 export default app;

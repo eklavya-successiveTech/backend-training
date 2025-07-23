@@ -1,16 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 
 export const errorHandler = (
-    err: Error,
-    req: Request,
-    res: Response,
-    next: NextFunction
-) =>{
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const status = err.status || 500;
 
-    console.log(`${err.name}: ${err.message}`);
+  console.error(`[${req.method}] ${req.originalUrl} -> ${err.name}: ${err.message}`);
 
-    res.status(505).json({
-        error: "Something went wrong",
-        message: err.message
-    })
-}
+  res.status(status).json({
+    error: {
+      message: err.message || 'Internal Server Error',
+      status,
+    },
+  });
+};
