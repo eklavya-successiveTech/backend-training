@@ -1,20 +1,23 @@
 {
   "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^5.1.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.9",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/lodash": "^4.17.20",
     "@types/node": "^24.0.13",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "assignment1": "ts-node src/Assignment1/index.ts",
-    "assignment2": "ts-node src/Assignment2/app.ts",
-    "assignment3": "ts-node src/Assignment3/src/server.ts",
-    "dev": "ts-node src/index.ts",
+    "dev": "ts-node src/server.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/server.js"
   }
 }
