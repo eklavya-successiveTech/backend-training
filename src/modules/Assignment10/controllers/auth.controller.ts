@@ -1,17 +1,22 @@
 import { Request, Response } from 'express';
-import { LoginRequestBody } from '../../../interfaces/auth.interface';
 import { AuthService } from '../services/auth.service';
 
 export class AuthController {
-  public static async login(req: Request<{}, {}, LoginRequestBody>, res: Response): Promise<Response> {
+  static async register(req: Request, res: Response) {
     try {
-      const result = await AuthService.login(req.body);
-      return res.json({
-        message: 'Login successful',
-        ...result,
-      });
+      const data = await AuthService.register(req.body);
+      res.status(201).json(data);
     } catch (error: any) {
-      return res.status(401).json({ error: error.message || 'Unauthorized' });
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  static async login(req: Request, res: Response) {
+    try {
+      const data = await AuthService.login(req.body);
+      res.status(200).json(data);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
   }
 }

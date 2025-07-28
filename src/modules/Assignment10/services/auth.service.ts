@@ -1,29 +1,61 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { UserModel } from '../../../models/User.model';
-import { LoginRequestBody } from '../../../interfaces/auth.interface';
+
+const SECRET = 'my_dummy_secret_key';
+
+interface Register {
+  username: string;
+  email: string;
+  password: string;
+}
+
+interface Login {
+  email: string;
+  password: string;
+}
 
 export class AuthService {
-  public static async login({ email, password }: LoginRequestBody) {
+  static async register({ username, email, password }: Register) {
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      throw new Error('Email already registered');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await UserModel.create({
+      username,
+      email,
+      password: hashedPassword,
+      role: 'user', 
+    });
+
+    return {
+      message: 'User registered successfully',
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    };
+  }
+
+  static async login({ email, password }:Login) {
     const user = await UserModel.findOne({ email });
-    if (!user) throw new Error('Invalid email or password');
+    if (!user) throw new Error('Invalid credentials');
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new Error('Invalid email or password');
+    if (!isMatch) throw new Error('Invalid credentials');
 
     const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET || 'my_dummy_secret_key',
+      { id: user._id, email: user.email, role: user.role },
+      SECRET,
       { expiresIn: '1h' }
     );
 
     return {
+      message: 'Login successful',
       token,
-      user: {
-        id: user._id,
-        email: user.email,
-        username: user.username,
-      },
     };
   }
 }
