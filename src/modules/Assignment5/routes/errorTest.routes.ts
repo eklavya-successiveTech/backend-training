@@ -4,22 +4,6 @@ import Joi from 'joi';
 
 const router = Router();
 
-router.get('/bad-request', (req: Request, res: Response, next: NextFunction) => {
-  next(createError(400, 'Bad Request Example'));
-});
-
-router.get('/unauthorized', (req: Request, res: Response, next: NextFunction) => {
-  next(createError(401, 'Unauthorized Access'));
-});
-
-router.get('/forbidden', (req: Request, res: Response, next: NextFunction) => {
-  next(createError(403, 'Access Forbidden'));
-});
-
-router.get('/server-error', (req: Request, res: Response) => {
-  throw new Error('Server crashed unexpectedly!');
-});
-
 router.get('/async-error', async (req: Request, res: Response, next: NextFunction) => {
   try {
     throw new Error('This is an async error!');
