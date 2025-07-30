@@ -14,16 +14,16 @@ const countries = [
   { name: 'West Indies', code: 'WI' },
 ];
 
-const seedCountries = async () => {
+export const seedCountries = async (): Promise<{ message: string }> => {
   try {
-    await CountryModel.insertMany(countries);
-    console.log('Countries seeded successfully');
+    const existingCount = await CountryModel.countDocuments();
+    if (existingCount > 0) {
+      return { message: 'Countries already seeded' };
+    }
 
-    process.exit(0);
+    await CountryModel.insertMany(countries);
+    return { message: 'Countries seeded successfully' };
   } catch (error) {
-    console.error('Seeding failed:', error);
-    process.exit(1);
+    throw new Error('Seeding countries failed: ' + (error as Error).message);
   }
 };
-
-seedCountries();

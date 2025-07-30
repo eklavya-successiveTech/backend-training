@@ -5,9 +5,15 @@ export interface ICountry extends Document {
   code: string;
 }
 
-const CountrySchema = new Schema<ICountry>({
+const CountrySchema = new Schema<ICountry>(
+  {
   name: { type: String, required: true },
   code: { type: String, required: true },
-});
+  }
+  ,
+  {
+    timestamps: true,
+  }
+);
 
-export const CountryModel = mongoose.model<ICountry>('Country', CountrySchema);
+export const CountryModel = mongoose.model<ICountry>('country', CountrySchema);
