@@ -1,31 +1,23 @@
-import express from 'express';
-import cookieParser from 'cookie-parser';
-import mainRouter from './routes/index'; 
-import { errorHandler } from './middlewares/errorHandler';
-import { addCustomHeader } from './middlewares/customHeaderMiddleware';
-import { rateLimiter } from './middlewares/rateLimiter';
-import createError from 'http-errors';
-import { SecurityHeaders } from './modules/Assignment12/security/SecurityHeaders';
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+import { json } from "body-parser";
+import mainRoutes from "./routes/index"
+import { errorHandler } from "./middlewares/errorHandler";
 
 const app = express();
 
-app.use(express.json());
-app.use(cookieParser());
+app.use(cors());
+app.use(helmet());
+app.use(json());
+app.use(morgan('dev'));
 
+app.use('/api/test',(req,res)=>{
+    res.send("API running")
+})
+app.use('/api', mainRoutes);
 
-app.use(SecurityHeaders.apply);
-app.use(addCustomHeader);
-app.use(rateLimiter({windowMs: 15000, maxRequests: 5}))
-
-app.get('/', (req, res) => {
-  res.send('Backend server is up and running!');
-});
-
-app.use('/api', mainRouter);
-
-app.use((req, res, next) => {
-  next(createError(404, 'Not Found'));
-});
 app.use(errorHandler);
 
 export default app;
