@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticate } from '../middlewares/authMiddleware';
+import { AuthMiddleware } from '../middlewares/authMiddleware';
 import { authorizeAdmin } from '../middlewares/authorizeAdmin';
 import { loggerMiddleware } from '../../../middlewares/loggerMiddleware';
 
@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/admin',
     loggerMiddleware,
-    authenticate,
+    AuthMiddleware.authenticate,
     authorizeAdmin,
     (req, res)=>{
         res.json({
