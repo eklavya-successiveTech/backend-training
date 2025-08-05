@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { userSchema } from '../../../utils/validationSchemas';
 import { ValidationMiddleware } from '../../../middlewares/ValidationMiddleware';
 import { UserModel } from '../../../models/User.model';
+import bcrypt from 'bcrypt';
 import createError from 'http-errors';
 
 const validationRouter = Router();
@@ -18,7 +19,8 @@ validationRouter.post(
         return next(createError(409, 'User already exists with this email')); 
       }
 
-      const newUser = new UserModel({ username, email, password });
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new UserModel({ username, email, password: hashedPassword });
       await newUser.save();
 
       res.status(201).json({
