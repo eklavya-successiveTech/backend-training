@@ -48,7 +48,7 @@ export class AuthService {
     if (!isMatch) throw new Error('Invalid credentials');
 
     const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role },
+      { id: user._id, email: user.email, role: user.role, username: user.username },
       SECRET,
       { expiresIn: '1h' }
     );

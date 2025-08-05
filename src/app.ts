@@ -5,12 +5,15 @@ import { errorHandler } from './middlewares/errorHandler';
 import { addCustomHeader } from './middlewares/customHeaderMiddleware';
 import { rateLimiter } from './middlewares/rateLimiter';
 import createError from 'http-errors';
+import { SecurityHeaders } from './modules/Assignment12/security/SecurityHeaders';
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
 
+
+app.use(SecurityHeaders.apply);
 app.use(addCustomHeader);
 app.use(rateLimiter({windowMs: 15000, maxRequests: 5}))
 
