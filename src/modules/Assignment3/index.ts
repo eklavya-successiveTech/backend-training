@@ -1,10 +1,11 @@
-import express from 'express';
+import express, { NextFunction } from 'express';
 
 import adminRoutes from './routes/adminRoutes';
 import mockRoutes from './routes/mockRoutes';
 
 import { AuthMiddleware } from './middlewares/authMiddleware';
 import { Request, Response } from 'express';
+import createError from 'http-errors';
 
 const router = express.Router();
 
@@ -26,6 +27,9 @@ router.get('/protected', AuthMiddleware.authenticate, (req: Request, res: Respon
 
 router.get('/test-error', (req: Request, res: Response) => {
   throw new Error('Intentional test error!');
+});
+router.get('/fail', (req: Request, res: Response, next: NextFunction) => {
+  next(createError(403, 'Forbidden!'));
 });
 
 export default router;
