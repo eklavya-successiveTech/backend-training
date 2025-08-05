@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { tokenSchema } from '../utils/tokenSchema';
+import createError from 'http-errors';
 
 const SECRET = 'my_dummy_secret_key';
 
@@ -10,8 +11,7 @@ export class AuthMiddleware {
     const token = authHeader?.split(' ')[1];
 
     if (!token) {
-      res.status(401).json({ error: 'No token provided' });
-      return;
+      return next(createError(401, 'Token is missing'));
     }
 
     try {
@@ -26,7 +26,7 @@ export class AuthMiddleware {
       (req as any).user = value; 
       next();
     } catch (err) {
-      res.status(403).json({ error: 'Invalid token' });
+      return next(createError(401, 'Invalid token'));
     }
   }
 }

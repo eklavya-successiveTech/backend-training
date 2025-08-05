@@ -1,21 +1,22 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { userSchema } from '../../../utils/validationSchemas';
 import { ValidationMiddleware } from '../../../middlewares/ValidationMiddleware';
 import { UserModel } from '../../../models/User.model';
 import bcrypt from 'bcrypt';
+import createError from 'http-errors';
 
 const validationRouter = Router();
 
 validationRouter.post(
   '/register',
   ValidationMiddleware.validateBody(userSchema),
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { username, email, password } = req.body;
 
     try {
       const existing = await UserModel.findOne({ email });
       if (existing) {
-        return res.status(409).json({ error: 'User already exists with this email.' });
+        return next(createError(409, 'User already exists with this email')); 
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -31,7 +32,7 @@ validationRouter.post(
         },
       });
     } catch (err) {
-      res.status(500).json({ error: 'Internal server error' });
+      next(err); 
     }
   }
 );

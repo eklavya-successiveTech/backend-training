@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
+import { customError } from '../modules/Assignment5/interfaces/customError';
 
 export const errorHandler = (
-  err: any,
+  err: customError,
   req: Request,
   res: Response,
   next: NextFunction
