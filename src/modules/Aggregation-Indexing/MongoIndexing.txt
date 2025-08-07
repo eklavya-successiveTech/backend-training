@@ -1,0 +1,13 @@
+Part 2: Indexing
+Tasks
+1. Check indexes on the collection.
+2. Create an index on customerName. Run a query filtering by customerName and
+check performance using explain("executionStats").
+3. Create a compound index on status and orderDate. Run a query filtering by both
+and compare performance (before vs after).
+4. Create a text index on items.productName. Perform a text search for a product.
+5. Drop an index and observe performance difference.
+Hint: Explore db.orders.getIndexes(), db.orders.createIndex(),
+db.orders.dropIndex(), and
+db.orders.find(...).explain("executionStats").
+Deliverable: Document query execution times before and after ind
