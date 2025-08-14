@@ -1,3 +1,2 @@
 use('NodePractise')
-db.orders.createIndex({ customerName: 1 })
-db.orders.find({ customerName: "John Doe" }).explain("executionStats")
+db.orders.find({customerName:"Maryann Nikolaus"}).explain("executionStats")
