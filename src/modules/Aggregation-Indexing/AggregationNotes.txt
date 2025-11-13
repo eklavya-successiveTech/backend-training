@@ -1,0 +1,31 @@
+Aggregation is a way of processing a large number of documents in a collection by means of passing them through different stages. The stages make up what is known as a pipeline. The stages in a pipeline can filter, sort, group, reshape and modify documents that pass through the pipeline.
+
+The map-reduce framework on MongoDB is a predecessor of the aggregation framework and much more complex to use.
+
+MongoDB aggregate:
+
+MongoDB $match
+The $match stage allows us to choose just those documents from a collection that we want to work with. It does this by filtering out those that do not follow our requirements.
+
+MongoDB $project
+It is good practice to return only those fields you need so as to avoid processing more data than is necessary.
+The $project stage is used to do this and to add any calculated fields that you need.
+
+MongoDB $group
+With the $group stage, we can perform all the aggregation or summary queries that we need, such as finding counts, totals, averages or maximums.
+Operator	Meaning
+$count	Calculates the quantity of documents in the given group.
+$max	Displays the maximum value of a document’s field in the collection.
+$min	Displays the minimum value of a document’s field in the collection.
+$avg	Displays the average value of a document’s field in the collection.
+$sum	Sums up the specified values of all documents in the collection.
+$push	Adds extra values into the array of the resulting document.
+
+MongoDB $unwind
+The $unwind stage in MongoDB is commonly found in a pipeline because it is a means to an end.
+
+MongoDB $sort
+You need the $sort stage to sort your results by the value of a specific field.
+
+MongoDB $limit
+When you need to limit the number of sorted documents, you must use the $limit stage just after the $sort.

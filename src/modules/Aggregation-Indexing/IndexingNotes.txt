@@ -1,0 +1,14 @@
+Indexes make querying data more efficient. Without indexes, MongoDB performs a collection scan that reads all the documents in the collection to determine if the data matches the conditions specified in the query. Indexes limit the number of documents that MongoDB reads and with the right indexes you can improve performance. Indexes store the value of a field or a set of fields, ordered by the value of the field.
+
+Single field indexes
+When you specify indexed fields, you apply a sort order for each field. In a single field index, sort order is not important because MongoDB can traverse the data in both directions.
+
+Compound indexes
+Compound indexes specify multiple indexed fields. The order in which you specify the fields is important. MongoDB recommends following the ESR (Equality, Search, Range) rule:
+
+Multikey indexes
+Multikey indexes are used for fields that contain arrays. You need only specify the field that contains the array and MongoDB automatically creates an index key for each element in the array.
+
+Text indexes
+Text indexes support searches on fields that are strings or an array of string elements. You can create one text index per collection. A text index can contain multiple fields.
+
